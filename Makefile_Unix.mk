@@ -6,7 +6,7 @@
 #    By: W2Wizard <w2.wizzard@gmail.com>              +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/26 21:36:38 by W2Wizard      #+#    #+#                  #
-#    Updated: 2022/02/26 22:12:31 by W2Wizard      ########   odam.nl          #
+#    Updated: 2022/03/24 02:38:31 by jemartel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,10 +24,17 @@ RESET	= \033[0m
 
 #//= Files =//#
 # /usr/bin/find is explicitly mentioned here for Windows compilation under Cygwin
+
+DETECTED_OS := $(shell uname -s)
+ifeq ($(DETECTED_OS),Linux)
+FIND=find
+else
+FIND=/usr/bin/find
+endif
 SHDR	=	src/mlx_vert.c src/mlx_frag.c
 SHDRSRC	=	shaders/default.frag shaders/default.vert
-LIBS	=	$(shell /usr/bin/find ./lib -iname "*.c")
-SRCS	=	$(shell /usr/bin/find ./src -iname "*.c") $(SHDR) $(LIBS)
+LIBS	=	$(shell $(FIND) ./lib -iname "*.c")
+SRCS	=	$(shell $(FIND) ./src -iname "*.c") $(SHDR) $(LIBS)
 OBJS	=	${SRCS:.c=.o}
 
 #//= Recipes =//#
